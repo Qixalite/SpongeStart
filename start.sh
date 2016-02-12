@@ -1,2 +1,2 @@
 gradle uploadArchives
-cd testplugin; gradle --stacktrace; cd ../;
+cd testplugin; gradle $1 --stacktrace; cd ../;

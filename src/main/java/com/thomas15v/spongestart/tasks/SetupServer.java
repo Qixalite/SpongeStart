@@ -25,12 +25,10 @@ public class SetupServer extends DefaultTask {
     private int forgeBuild;
 
     public void setForgeBuild(int forgeBuild) {
-        forgeDownload = Util.getForgeDownload(forgeBuild);
         this.forgeBuild = forgeBuild;
     }
 
     public void setSpongeBuild(int spongeBuild) {
-        spongeDownload = Util.getSpongeDownload(spongeBuild, forgeBuild);
         this.spongeBuild = spongeBuild;
     }
 
@@ -57,7 +55,7 @@ public class SetupServer extends DefaultTask {
 
             for (File file : folder.listFiles()) {
                 if (file.getName().endsWith("-universal.jar")){
-                    file.renameTo(new File("server.jar"));
+                    file.renameTo(new File(folder, "server.jar"));
                     break;
                 }
             }
@@ -68,6 +66,7 @@ public class SetupServer extends DefaultTask {
     }
 
     private void setupSponge(){
+
         File modfolder = new File(folder, "mods");
         if (modfolder.exists())
             modfolder.delete();
@@ -83,6 +82,9 @@ public class SetupServer extends DefaultTask {
 
     @TaskAction
     public void setup() {
+        spongeDownload = Util.getSpongeDownload(spongeBuild, forgeBuild);
+        forgeDownload = Util.getForgeDownload(forgeBuild);
+        //todo errorhandeling
         if (forgeDownload.isPresent() && spongeDownload.isPresent()) {
             setupForge();
             setupSponge();

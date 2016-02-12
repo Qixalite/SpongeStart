@@ -1,5 +1,6 @@
 package com.thomas15v.spongestart.tasks;
 
+import com.thomas15v.spongestart.SpongeStart;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.OutputDirectory;
@@ -21,16 +22,17 @@ public class GenerateStart extends DefaultTask {
     private static final String[] filenames = {"StartServer.java"};
 
     @OutputDirectory
-    private File outputDir;
+    private File outputDir = new File("test");
 
     @TaskAction
     public void doStuff(){
         try {
-            if (!outputDir.exists())
-                outputDir.mkdirs();
+            if (outputDir.exists())
+                outputDir.delete();
+            outputDir.mkdirs();
             List<File> files = new ArrayList<>();
             for (String name : filenames){
-                InputStream link = GenerateStart.class.getResourceAsStream("java." + name);
+                InputStream link = SpongeStart.class.getResourceAsStream(name);
                 File outputfile = new File(outputDir, name);
                 IOUtils.copy(link, new FileOutputStream(outputfile));
                 files.add(outputfile);

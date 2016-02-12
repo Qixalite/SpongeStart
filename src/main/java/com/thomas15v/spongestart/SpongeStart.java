@@ -5,6 +5,7 @@ import com.thomas15v.spongestart.tasks.SetupServer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileCollection;
+import org.gradle.plugins.ide.eclipse.model.EclipseModel;
 import org.gradle.plugins.ide.idea.model.IdeaModel;
 
 import java.io.File;
@@ -27,8 +28,8 @@ public class SpongeStart implements Plugin<Project>  {
             SpongeStartExtension extension = (SpongeStartExtension) projectAfter.getExtensions().getByName("sponge");
 
             //setupserver stuff
+            SetupServer setupServerTask = project.getTasks().create("SetupServer", SetupServer.class);
             {
-                SetupServer setupServerTask = project.getTasks().create("SetupServer", SetupServer.class);
                 setupServerTask.setForgeBuild(extension.getForgeBuild());
                 setupServerTask.setSpongeBuild(extension.getSpongeBuild());
                 if (extension.getFolder() != null) {
@@ -36,15 +37,18 @@ public class SpongeStart implements Plugin<Project>  {
                 }
             }
 
-            //generate tasks stuff
+            //generate start stuff
+            GenerateStart generateStartTask = project.getTasks().create("generateStart", GenerateStart.class);
             {
-                GenerateStart generateStartTask = project.getTasks().create("generateStart", GenerateStart.class);
                 generateStartTask.setOutputDir(startDir);
-
                 ConfigurableFileCollection col = project.files(startDir);
                 project.getConfigurations().maybeCreate(RUNTIME_SCOPE);
                 project.getDependencies().add(RUNTIME_SCOPE, col);
             }
+
+            setupServerTask.dependsOn(generateStartTask);
+
+
 
             setupIntellij();
         });
@@ -53,6 +57,11 @@ public class SpongeStart implements Plugin<Project>  {
     private void setupIntellij(){
         IdeaModel ideaConv = (IdeaModel) project.getExtensions().getByName("idea");
         ideaConv.getModule().getScopes().get("RUNTIME").get("plus").add(project.getConfigurations().getByName(RUNTIME_SCOPE));
+    }
+
+    private void setupEclipse(){
+        EclipseModel eclipseConv = (EclipseModel) project.getExtensions().getByName("eclipse");
+        eclipseConv.getClasspath().getPlusConfigurations().add(project.getConfigurations().getByName(RUNTIME_SCOPE));
     }
 
     private void applyPlugins(){
