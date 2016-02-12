@@ -1,0 +1,19 @@
+apply plugin: 'SpongeStart'
+apply plugin: 'java'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url uri('../.repo')
+        }
+    }
+    dependencies {
+        classpath "com.thomas15v:SpongeStart:1.0-SNAPSHOT"
+    }
+}
+
+sponge{
+    forgeBuild 1732
+    spongeBuild 1151
+}

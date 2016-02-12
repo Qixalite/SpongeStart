@@ -1,0 +1,39 @@
+group 'com.thomas15v'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven{
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'commons-io:commons-io:2.4'
+    compile gradleApi()
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('.repo'))
+        }
+    }
+}
