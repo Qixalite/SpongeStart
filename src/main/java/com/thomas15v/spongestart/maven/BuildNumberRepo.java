@@ -2,9 +2,7 @@ package com.thomas15v.spongestart.maven;
 
 
 import com.thomas15v.spongestart.util.Util;
-import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -15,7 +13,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
 public class BuildNumberRepo {
@@ -34,7 +31,7 @@ public class BuildNumberRepo {
         this.artifactname = Util.getFileName(url);
     }
 
-    public void setFileextension(String fileextension) {
+    public void setFileExtension(String fileextension) {
         this.fileextension = fileextension;
     }
 
@@ -72,16 +69,4 @@ public class BuildNumberRepo {
     public URL getLatest() throws Exception {
         return formatForVersion(getDocument().getElementsByTagName("release").item(0).getTextContent());
     }
-
-    public static void main(String[] args) {
-        try {
-            System.out.println(new BuildNumberRepo("http://files.minecraftforge.net/maven/org/spongepowered/spongeforge/").getLatest());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
 }

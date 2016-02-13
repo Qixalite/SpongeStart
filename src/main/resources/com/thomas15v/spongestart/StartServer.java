@@ -35,6 +35,7 @@ public class StartServer{
 
     public static void main(String[] args){
         try {
+            System.out.println("Running folder: " + new File("."));
             File server = new File("server.jar");
             Manifest m = new JarFile(server).getManifest();
             ClassLoader loader = new SpongeClassLoader(

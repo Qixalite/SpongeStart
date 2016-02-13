@@ -9,11 +9,13 @@ import org.gradle.api.tasks.TaskAction;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 
 public class DownloadTask extends DefaultTask {
 
     private File location;
     private URL url;
+    private static File cacheDir;
 
     public URL getUrl() {
         return url;
@@ -27,6 +29,12 @@ public class DownloadTask extends DefaultTask {
         return location;
     }
 
+    public static void setCacheDir(File cache) {
+        //no messy messy, its already messy enough this way
+        if (DownloadTask.cacheDir == null)
+            DownloadTask.cacheDir = cache;
+    }
+
     public void setLocation(File location) {
         this.location = location;
     }
@@ -35,15 +43,16 @@ public class DownloadTask extends DefaultTask {
     public void doStuff(){
         getLogger().lifecycle("Downloading: " + getUrl());
         try {
-            if (location.exists()) {
+            File cacheLocation = new File(cacheDir, Util.getFileName(getUrl()));
+            if (cacheLocation.exists()) {
                 getLogger().lifecycle("Done! (cached)");
-                return;
+            }else{
+                FileUtils.copyURLToFile(url, cacheLocation);
+                getLogger().lifecycle("Done!");
             }
-            FileUtils.copyURLToFile(url, location);
-            getLogger().lifecycle("Done!");
+            FileUtils.copyFile(cacheLocation, location);
         } catch (IOException e) {
-            throw new GradleException("Failed to download: " + url + " with: " + e.getMessage());
+            throw new GradleException("Failed to download: " + url + " : " + e.getMessage());
         }
     }
-
 }

@@ -7,9 +7,13 @@ public class SpongeStartExtension {
     private final transient SpongeStart spongeStart;
     protected String spongeVanillaBuild = "LATEST";
     protected String spongeForgeBuild = "LATEST";
-
     protected String forgeserverFolder = "run" + File.separator + "forge";
     protected String VanillaserverFolder = "run" + File.separator + "vanilla";
+    /**
+     * Automaticly accept the eula upon generation. Can be done with the task acceptEula,
+     * but still you typed it so you kinda accepted it right?
+     */
+    protected boolean eula = false;
 
     public SpongeStartExtension(SpongeStart spongeStart) {
         this.spongeStart = spongeStart;
@@ -46,5 +50,13 @@ public class SpongeStartExtension {
 
     public void setVanillaserverFolder(String vanillaserverFolder) {
         VanillaserverFolder = vanillaserverFolder;
+    }
+
+    public void setEula(boolean eula) {
+        this.eula = eula;
+    }
+
+    public boolean isEula() {
+        return eula;
     }
 }
