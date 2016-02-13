@@ -13,24 +13,24 @@ import java.util.Optional;
 public class Util {
 
     public static Optional<URL> getForgeDownload(int build){
-        try {
+       /* try {
             JsonObject jsonObject = getDownloadversion(build, Constants.forgeindex);
             String version = jsonObject.get("mcversion").getAsString() + "-" + jsonObject.get("version").getAsString();
             return Optional.of(new URL(formatdownload(Constants.forgeinstallerdownload, version)));
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }
+        }*/
         return Optional.empty();
     }
 
     public static Optional<URL> getSpongeDownload(int build, int forgebuild){
-        try {
+        /*try {
             JsonObject jsonObject = getDownloadversion(build, Constants.spongeindex);
             String version = jsonObject.get("mcversion").getAsString() + "-" + forgebuild + "-" + jsonObject.get("version").getAsString();
             return Optional.of(new URL(formatdownload(Constants.spongedownload, version)));
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }
+        }*/
         return Optional.empty();
     }
 
@@ -51,9 +51,11 @@ public class Util {
         return String.format(string, version, version);
     }
 
-    public static void main(String[] args){
-        System.out.println(getSpongeDownload(1150, 1732));
-        System.out.println(getForgeDownload(1110));
+    public static String getFileName(URL url){
+        String path = url.getPath();
+        if (url.getPath().endsWith("/"))
+            path = path.substring(0, url.getPath().length() - 1);
+        return path.substring(path.lastIndexOf("/") + 1);
     }
 
 }

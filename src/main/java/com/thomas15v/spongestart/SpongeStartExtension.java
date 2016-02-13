@@ -1,38 +1,50 @@
 package com.thomas15v.spongestart;
 
+import java.io.File;
+
 public class SpongeStartExtension {
 
-
     private final transient SpongeStart spongeStart;
-    protected int forgeBuild;
-    protected int spongeBuild;
-    protected String folder;
+    protected String spongeVanillaBuild = "LATEST";
+    protected String spongeForgeBuild = "LATEST";
+
+    protected String forgeserverFolder = "run" + File.separator + "forge";
+    protected String VanillaserverFolder = "run" + File.separator + "vanilla";
 
     public SpongeStartExtension(SpongeStart spongeStart) {
         this.spongeStart = spongeStart;
     }
 
-    public int getForgeBuild() {
-        return forgeBuild;
+    public String getSpongeForgeBuild() {
+        return spongeForgeBuild;
     }
 
-    public int getSpongeBuild() {
-        return spongeBuild;
+    public String getSpongeVanillaBuild() {
+        return spongeVanillaBuild;
     }
 
-    public String getFolder() {
-        return folder;
+    public void setSpongeForgeBuild(String spongeForgeBuild) {
+        this.spongeForgeBuild = spongeForgeBuild;
     }
 
-    public void setFolder(String folder) {
-        this.folder = folder;
+    public void setSpongeVanillaBuild(String spongeVanillaBuild) {
+        this.spongeVanillaBuild = spongeVanillaBuild;
     }
 
-    public void setForgeBuild(int forgeBuild) {
-        this.forgeBuild = forgeBuild;
+
+    public String getForgeserverFolder() {
+        return forgeserverFolder;
     }
 
-    public void setSpongeBuild(int spongeBuild) {
-        this.spongeBuild = spongeBuild;
+    public String getVanillaserverFolder() {
+        return VanillaserverFolder;
+    }
+
+    public void setForgeserverFolder(String forgeserverFolder) {
+        this.forgeserverFolder = forgeserverFolder;
+    }
+
+    public void setVanillaserverFolder(String vanillaserverFolder) {
+        VanillaserverFolder = vanillaserverFolder;
     }
 }

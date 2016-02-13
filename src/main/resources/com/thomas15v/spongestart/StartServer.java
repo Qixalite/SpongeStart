@@ -3,11 +3,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 public class StartServer{
 
     public static class SpongeClassLoader extends URLClassLoader {
-
 
         public SpongeClassLoader(URL[] urls, ClassLoader parent) {
             super(urls, parent);
@@ -34,12 +35,12 @@ public class StartServer{
 
     public static void main(String[] args){
         try {
+            File server = new File("server.jar");
+            Manifest m = new JarFile(server).getManifest();
             ClassLoader loader = new SpongeClassLoader(
-                    new URL[]{new File("server.jar").toURI().toURL()}, StartServer.class.getClassLoader()
+                    new URL[]{server.toURI().toURL()}, StartServer.class.getClassLoader()
             );
-
-            Class clazz = loader.loadClass("net.minecraftforge.fml.relauncher.ServerLaunchWrapper");
-
+            Class clazz = loader.loadClass(m.getMainAttributes().getValue("Main-Class"));
             Method method = clazz.getMethod("main", String[].class);
             try {
                 method.invoke(null, (Object) args);
