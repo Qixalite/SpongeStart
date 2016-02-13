@@ -39,8 +39,7 @@ public class Util {
             URL index = new URL(URL);
             Reader in = new BufferedReader(new InputStreamReader(index.openStream()));
             JsonParser parser = new JsonParser();
-            JsonObject jsonObject = parser.parse(in).getAsJsonObject().getAsJsonObject("number").getAsJsonObject(String.valueOf(build));
-            return jsonObject;
+            return parser.parse(in).getAsJsonObject().getAsJsonObject("number").getAsJsonObject(String.valueOf(build));
         } catch (Exception e) {
             e.printStackTrace();
         }

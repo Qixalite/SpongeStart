@@ -5,12 +5,14 @@ import java.io.File;
 public class SpongeStartExtension {
 
     private final transient SpongeStart spongeStart;
+
     protected String spongeVanillaBuild = "LATEST";
     protected String spongeForgeBuild = "LATEST";
-    protected String forgeserverFolder = "run" + File.separator + "forge";
-    protected String VanillaserverFolder = "run" + File.separator + "vanilla";
+    protected String forgeServerFolder = "run" + File.separator + "forge";
+    protected String vanillaServerFolder = "run" + File.separator + "vanilla";
+
     /**
-     * Automaticly accept the eula upon generation. Can be done with the task acceptEula,
+     * Automatically accept the eula upon generation. Can be done with the task acceptEula,
      * but still you typed it so you kinda accepted it right?
      */
     protected boolean eula = false;
@@ -20,11 +22,11 @@ public class SpongeStartExtension {
     }
 
     public String getSpongeForgeBuild() {
-        return spongeForgeBuild;
+        return this.spongeForgeBuild;
     }
 
     public String getSpongeVanillaBuild() {
-        return spongeVanillaBuild;
+        return this.spongeVanillaBuild;
     }
 
     public void setSpongeForgeBuild(String spongeForgeBuild) {
@@ -35,21 +37,20 @@ public class SpongeStartExtension {
         this.spongeVanillaBuild = spongeVanillaBuild;
     }
 
-
-    public String getForgeserverFolder() {
-        return forgeserverFolder;
+    public String getForgeServerFolder() {
+        return this.forgeServerFolder;
     }
 
-    public String getVanillaserverFolder() {
-        return VanillaserverFolder;
+    public String getVanillaServerFolder() {
+        return this.vanillaServerFolder;
     }
 
-    public void setForgeserverFolder(String forgeserverFolder) {
-        this.forgeserverFolder = forgeserverFolder;
+    public void setForgeServerFolder(String forgeServerFolder) {
+        this.forgeServerFolder = forgeServerFolder;
     }
 
-    public void setVanillaserverFolder(String vanillaserverFolder) {
-        VanillaserverFolder = vanillaserverFolder;
+    public void setVanillaServerFolder(String vanillaServerFolder) {
+        this.vanillaServerFolder = vanillaServerFolder;
     }
 
     public void setEula(boolean eula) {
@@ -57,6 +58,6 @@ public class SpongeStartExtension {
     }
 
     public boolean isEula() {
-        return eula;
+        return this.eula;
     }
 }

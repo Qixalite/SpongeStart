@@ -20,7 +20,7 @@ public class DownloadTask extends DefaultTask {
     private static File cacheDir;
 
     public URL getUrl() {
-        return url;
+        return this.url;
     }
 
     public void setUrl(URL url) {
@@ -28,7 +28,7 @@ public class DownloadTask extends DefaultTask {
     }
 
     public File getLocation() {
-        return location;
+        return this.location;
     }
 
     public static void setCacheDir(File cache) {
@@ -43,19 +43,19 @@ public class DownloadTask extends DefaultTask {
 
     @TaskAction
     public void doStuff(){
-        getLogger().lifecycle("Downloading: " + getUrl());
+        this.getLogger().lifecycle("Downloading: " + getUrl());
         try {
-            URLConnection connection = url.openConnection();
-            File cacheLocation = new File(cacheDir, Util.getFileName(getUrl()));
+            URLConnection connection = this.url.openConnection();
+            File cacheLocation = new File(DownloadTask.cacheDir, Util.getFileName(getUrl()));
             if (cacheLocation.exists() && cacheLocation.length() == connection.getContentLength()) {
-                getLogger().lifecycle("Done! (cached)");
+                this.getLogger().lifecycle("Done! (cached)");
             }else{
                 IOUtils.copy(connection.getInputStream() , FileUtils.openOutputStream(cacheLocation));
-                getLogger().lifecycle("Done!");
+                this.getLogger().lifecycle("Done!");
             }
-            FileUtils.copyFile(cacheLocation, location);
+            FileUtils.copyFile(cacheLocation, this.location);
         } catch (IOException e) {
-            throw new GradleException("Failed to download: " + url + " : " + e.getMessage());
+            throw new GradleException("Failed to download: " + this.url + " : " + e.getMessage());
         }
     }
 }

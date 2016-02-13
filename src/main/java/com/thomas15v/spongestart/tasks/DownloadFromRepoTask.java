@@ -13,7 +13,7 @@ public class DownloadFromRepoTask extends DownloadTask {
     public void setRepoUrl(String repoUrl) {
         this.repoUrl = repoUrl;
         try {
-            repo = new BuildNumberRepo(repoUrl);
+            this.repo = new BuildNumberRepo(repoUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -26,11 +26,11 @@ public class DownloadFromRepoTask extends DownloadTask {
     @Override
     public void doStuff() {
         try {
-            if ("LATEST".equalsIgnoreCase(version)){
-                setUrl(repo.getLatest());
+            if ("LATEST".equalsIgnoreCase(this.version)){
+                this.setUrl(this.repo.getLatest());
             }else {
-                int number = Integer.valueOf(version);
-                setUrl(repo.getFor(number));
+                int number = Integer.valueOf(this.version);
+                this.setUrl(this.repo.getFor(number));
             }
             super.doStuff();
         } catch (Exception e) {

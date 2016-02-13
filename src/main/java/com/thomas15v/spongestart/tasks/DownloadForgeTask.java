@@ -12,8 +12,8 @@ public class DownloadForgeTask extends DownloadFromRepoTask {
 
     @Override
     public void doStuff() {
-        setNumber(Util.getFileName(downloadSpongeForgeTask.getUrl()).split("-")[2]);
-        repo.setFileExtension("-installer.jar");
+        this.setNumber(Util.getFileName(this.downloadSpongeForgeTask.getUrl()).split("-")[2]);
+        this.repo.setFileExtension("-installer.jar");
         super.doStuff();
     }
 }

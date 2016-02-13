@@ -16,6 +16,7 @@ public class StartServer{
                 //making sure the classloaders in forge don't get confused :).
                 Method ADDURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
                 ADDURL.setAccessible(true);
+
                 for (URL url : urls) {
                     try {
                         ADDURL.invoke(getClass().getClassLoader(), url);
@@ -38,13 +39,15 @@ public class StartServer{
             System.out.println("Running folder: " + new File("."));
             File server = new File("server.jar");
             Manifest m = new JarFile(server).getManifest();
+
             ClassLoader loader = new SpongeClassLoader(
                     new URL[]{server.toURI().toURL()}, StartServer.class.getClassLoader()
             );
-            Class clazz = loader.loadClass(m.getMainAttributes().getValue("Main-Class"));
-            Method method = clazz.getMethod("main", String[].class);
+
             try {
-                method.invoke(null, (Object) args);
+                loader.loadClass(m.getMainAttributes().getValue("Main-Class"))
+                        .getMethod("main", String[].class)
+                        .invoke(null, (Object) args);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }

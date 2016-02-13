@@ -17,9 +17,9 @@ public class CleanFolderTask extends DefaultTask {
 
     @TaskAction
     public void doStuff(){
-        if (folder.exists()) {
+        if (this.folder.exists()) {
             try {
-                FileUtils.deleteDirectory(folder);
+                FileUtils.deleteDirectory(this.folder);
             } catch (IOException e) {
                 e.printStackTrace();
             }
