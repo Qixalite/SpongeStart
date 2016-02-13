@@ -14,9 +14,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by thomas15v on 12/02/16.
- */
 public class GenerateStart extends DefaultTask {
 
     private static final String[] filenames = {"StartServer.java"};
@@ -27,19 +24,25 @@ public class GenerateStart extends DefaultTask {
     @TaskAction
     public void doStuff(){
         try {
-            if (outputDir.exists())
-                outputDir.delete();
-            outputDir.mkdirs();
-            List<File> files = new ArrayList<>();
-            for (String name : filenames){
-                InputStream link = SpongeStart.class.getResourceAsStream(name);
-                File outputfile = new File(outputDir, name);
-                IOUtils.copy(link, new FileOutputStream(outputfile));
-                files.add(outputfile);
+            if (this.outputDir.exists()) {
+                this.outputDir.delete();
             }
+
+            this.outputDir.mkdirs();
+            List<File> files = new ArrayList<>();
+
+            for (String name : GenerateStart.filenames){
+                InputStream link = SpongeStart.class.getResourceAsStream(name);
+                File outputFile = new File(outputDir, name);
+
+                IOUtils.copy(link, new FileOutputStream(outputFile));
+                files.add(outputFile);
+            }
+
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
             Iterable<? extends JavaFileObject> compilationUnits1 = fileManager.getJavaFileObjects(files.toArray(new File[files.size()]));
+
             compiler.getTask(null, fileManager, null, null, null, compilationUnits1).call();
         } catch (IOException e) {
             e.printStackTrace();

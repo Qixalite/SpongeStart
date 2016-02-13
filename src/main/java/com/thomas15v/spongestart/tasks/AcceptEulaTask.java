@@ -13,12 +13,12 @@ public class AcceptEulaTask extends DefaultTask {
     private List<File> folders = new ArrayList<>();
 
     public void addFolder(File folder) {
-        folders.add(folder);
+        this.folders.add(folder);
     }
 
     @TaskAction
     public void doStuff(){
-        folders.forEach(folder ->{
+        this.folders.forEach(folder ->{
                     try {
                         FileUtils.writeStringToFile(new File(folder, "eula.txt"), "eula=true");
                     }catch (Exception e){

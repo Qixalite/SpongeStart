@@ -9,9 +9,12 @@ import org.gradle.api.tasks.TaskAction;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 public class SetupForgeServer extends DefaultTask {
@@ -26,27 +29,26 @@ public class SetupForgeServer extends DefaultTask {
     @TaskAction
     private void setupForge(){
         try {
-            if (new File(folder, "libraries").exists()){
+            if (new File(this.folder, "libraries").exists()){
                 throw new GradleException("Setup has already run, do \"gradle cleanForgeServer\" before running this command again");
             }
-            getLogger().lifecycle("Starting setup");
-            Runtime rt = Runtime.getRuntime();
-            Process pr = rt.exec("java -jar setup.jar --installServer", null, folder);
+
+            this.getLogger().lifecycle("Starting setup");
+
+            Process pr = Runtime.getRuntime().exec("java -jar setup.jar --installServer", null, this.folder);
             BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+
             while (pr.isAlive()){
                 String line = reader.readLine();
                 if (line != null)
-                    getLogger().lifecycle(line);
-            }
-            new File(folder, "setup.jar").delete();
-
-            for (File file : folder.listFiles()) {
-                if (file.getName().endsWith("-universal.jar")){
-                    file.renameTo(new File(folder, "server.jar"));
-                    break;
-                }
+                    this.getLogger().lifecycle(line);
             }
 
+            new File(this.folder, "setup.jar").delete();;
+
+            for (File file : folder.listFiles((dir, name) -> name.endsWith("-universal.jar"))) {
+                file.renameTo(new File(this.folder, "server.jar"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

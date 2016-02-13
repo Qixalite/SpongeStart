@@ -18,8 +18,8 @@ import java.util.zip.GZIPInputStream;
 public class BuildNumberRepo {
 
     private URL url;
-    private String artifactname;
-    private String fileextension = ".jar";
+    private String artifactName;
+    private String fileExtension = ".jar";
 
 
     public BuildNumberRepo(String url) throws MalformedURLException {
@@ -28,15 +28,15 @@ public class BuildNumberRepo {
 
     public BuildNumberRepo(URL url){
         this.url = url;
-        this.artifactname = Util.getFileName(url);
+        this.artifactName = Util.getFileName(url);
     }
 
-    public void setFileExtension(String fileextension) {
-        this.fileextension = fileextension;
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
     }
 
     private Document getDocument() throws ParserConfigurationException, IOException, SAXException {
-        URLConnection connection = new URL(url, "maven-metadata.xml").openConnection();
+        URLConnection connection = new URL(this.url, "maven-metadata.xml").openConnection();
 
         InputSource inputSource;
         //because sponge webserver encrypts everything, even if you don't support it.
@@ -46,27 +46,25 @@ public class BuildNumberRepo {
             inputSource = new InputSource(connection.getInputStream());
         }
 
-        DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-        DocumentBuilder b = f.newDocumentBuilder();
-        return b.parse(inputSource);
+        return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputSource);
     }
 
     private URL formatForVersion(String version) throws MalformedURLException {
-        return new URL(url, version + "/" + artifactname + "-" + version + fileextension);
+        return new URL(this.url, version + "/" + this.artifactName + "-" + version + this.fileExtension);
     }
 
     public URL getFor(int number) throws Exception {
-        NodeList nodeList = getDocument().getElementsByTagName("version");
+        NodeList nodeList = this.getDocument().getElementsByTagName("version");
         for (int i = 0; i < nodeList.getLength(); i++){
             String version = nodeList.item(i).getTextContent();
             if (version.endsWith(String.valueOf(number))){
-                return formatForVersion(version);
+                return this.formatForVersion(version);
             }
         }
         return null;
     }
 
     public URL getLatest() throws Exception {
-        return formatForVersion(getDocument().getElementsByTagName("release").item(0).getTextContent());
+        return this.formatForVersion(this.getDocument().getElementsByTagName("release").item(0).getTextContent());
     }
 }
