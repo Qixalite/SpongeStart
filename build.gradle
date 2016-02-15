@@ -33,7 +33,7 @@ uploadArchives {
             repository(url: uri('.repo'))
         }
         mavenDeployer {
-            repository(url: 'http://repo.qixalite.com/content/repositories/private_releases/') {
+            repository(url: 'http://repo.qixalite.com/content/repositories/public_releases/') {
                 authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
             }
 
