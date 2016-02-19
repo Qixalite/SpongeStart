@@ -34,7 +34,7 @@ public class GenerateStart extends DefaultTask {
             List<File> files = new ArrayList<>();
 
             for (String name : GenerateStart.filenames){
-                InputStream link = ClassLoader.getSystemResourceAsStream(name);
+                InputStream link = getClass().getClassLoader().getResourceAsStream(name);
                 File outputFile = new File(outputDir, name);
 
                 IOUtils.copy(link, new FileOutputStream(outputFile));
