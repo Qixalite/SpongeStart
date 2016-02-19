@@ -1,6 +1,6 @@
-package com.thomas15v.spongestart.tasks;
+package com.qixalite.spongestart.tasks;
 
-import com.thomas15v.spongestart.maven.BuildNumberRepo;
+import com.qixalite.spongestart.maven.BuildNumberRepo;
 
 import java.net.MalformedURLException;
 

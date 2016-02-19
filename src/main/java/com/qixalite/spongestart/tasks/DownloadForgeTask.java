@@ -1,6 +1,6 @@
-package com.thomas15v.spongestart.tasks;
+package com.qixalite.spongestart.tasks;
 
-import com.thomas15v.spongestart.util.Util;
+import com.qixalite.spongestart.util.Util;
 
 public class DownloadForgeTask extends DownloadFromRepoTask {
 

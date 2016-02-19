@@ -1,21 +1,13 @@
-package com.thomas15v.spongestart.tasks;
+package com.qixalite.spongestart.tasks;
 
-import com.thomas15v.spongestart.util.Util;
-import org.apache.commons.io.FileUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
-import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Optional;
 
 public class SetupForgeServer extends DefaultTask {
 

@@ -1,6 +1,6 @@
-package com.thomas15v.spongestart.tasks;
+package com.qixalite.spongestart.tasks;
 
-import com.thomas15v.spongestart.util.Util;
+import com.qixalite.spongestart.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.DefaultTask;
@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Files;
 
 public class DownloadTask extends DefaultTask {
 

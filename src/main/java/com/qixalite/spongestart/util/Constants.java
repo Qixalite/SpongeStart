@@ -1,4 +1,4 @@
-package com.thomas15v.spongestart.util;
+package com.qixalite.spongestart.util;
 
 import java.io.File;
 

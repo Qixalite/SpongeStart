@@ -1,6 +1,5 @@
-package com.thomas15v.spongestart.tasks;
+package com.qixalite.spongestart.tasks;
 
-import com.thomas15v.spongestart.SpongeStart;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.OutputDirectory;
@@ -10,7 +9,10 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class GenerateStart extends DefaultTask {
             List<File> files = new ArrayList<>();
 
             for (String name : GenerateStart.filenames){
-                InputStream link = SpongeStart.class.getResourceAsStream(name);
+                InputStream link = ClassLoader.class.getResourceAsStream(name);
                 File outputFile = new File(outputDir, name);
 
                 IOUtils.copy(link, new FileOutputStream(outputFile));

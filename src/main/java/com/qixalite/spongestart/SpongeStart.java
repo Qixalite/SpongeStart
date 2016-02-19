@@ -1,7 +1,7 @@
-package com.thomas15v.spongestart;
+package com.qixalite.spongestart;
 
-import com.thomas15v.spongestart.tasks.*;
-import com.thomas15v.spongestart.util.Constants;
+import com.qixalite.spongestart.tasks.*;
+import com.qixalite.spongestart.util.Constants;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.plugins.ide.eclipse.model.EclipseModel;
