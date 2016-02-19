@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.thomas15v:SpongeStart:1.0-SNAPSHOT"
+        classpath "com.thomas15v:SpongeStart:+"
     }
 }
 
