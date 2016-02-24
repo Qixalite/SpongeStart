@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.thomas15v:SpongeStart:+"
+        classpath "com.qixalite:SpongeStart:+"
     }
 }
 

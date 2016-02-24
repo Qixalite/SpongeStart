@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Unnamed" type="JarApplication" factoryName="JAR Application" singleton="true">
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+    <option name="JAR_PATH" value="" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <envs />
+    <module name="testplugin" />
+    <method />
+  </configuration>
+</component>

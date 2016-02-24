@@ -36,10 +36,11 @@ public class SetupForgeServer extends DefaultTask {
                     this.getLogger().lifecycle(line);
             }
 
-            new File(this.folder, "setup.jar").delete();;
+            File serverjar = new File(this.folder, "setup.jar");
+            serverjar.delete();
 
             for (File file : folder.listFiles((dir, name) -> name.endsWith("-universal.jar"))) {
-                file.renameTo(new File(this.folder, "server.jar"));
+                file.renameTo(serverjar);
             }
         } catch (IOException e) {
             e.printStackTrace();
