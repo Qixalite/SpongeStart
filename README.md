@@ -1,4 +1,4 @@
-# SpongeStart
+# SpongeStart [![](https://jitpack.io/v/qixalite/spongestart.svg)](https://jitpack.io/#qixalite/spongestart)
 Gradle plugin to run sponge inside your workspace.
 
 ## Example Build.gradle for your project
