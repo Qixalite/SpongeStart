@@ -1,5 +1,6 @@
 package com.qixalite.spongestart.tasks;
 
+import com.qixalite.spongestart.SpongeStart;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.tasks.TaskAction;
@@ -48,11 +49,12 @@ public class SetupForgeServer extends DefaultTask {
                 e.printStackTrace();
             }
 
-            File serverjar = new File(this.folder, "setup.jar");
-            serverjar.delete();
+            File setupJar = new File(this.folder, "setup.jar");
+            setupJar.delete();
 
+            File serverJar = new File(this.folder, "server.jar");
             for (File file : folder.listFiles((dir, name) -> name.endsWith("-universal.jar"))) {
-                file.renameTo(new File(this.folder, "server.jar"));
+                file.renameTo(serverJar);
             }
         } catch (IOException e) {
             e.printStackTrace();

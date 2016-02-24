@@ -32,6 +32,7 @@ uploadArchives {
         mavenDeployer {
             repository(url: uri('.repo'))
         }
+        /*
         if (project.hasProperty('qixaliteRepoUsername')){
             mavenDeployer {
                 repository(url: 'http://repo.qixalite.com/content/repositories/public_releases/') {
@@ -41,6 +42,6 @@ uploadArchives {
                     authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
                 }
             }
-        }
+        }*/
     }
 }
