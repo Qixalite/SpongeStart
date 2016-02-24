@@ -14,7 +14,7 @@ buildscript{
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.qixalite:SpongeStart:1.1'
+        classpath 'com.github.qixalite:SpongeStart:1.4'
     }
 }
 
@@ -41,7 +41,18 @@ dependencies{
 }
 ```
 
-## Run Configurations for your IDE
+##Commands
+>`gradle setupServer`
+> Generates a forge and vanilla server + intelij run configurations.
+
+>`gradle setupVanilla`
+> Generates a vanilla server + intelij run configurations.
+
+>`gradle setupForge`
+> Generates a forge server + intelij run configurations.
+
+
+## Run Configurations for your IDE (in case they don't automatic generate)
 
 ####**Start SpongeForge Server:**
 >
