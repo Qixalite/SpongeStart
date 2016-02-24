@@ -26,5 +26,6 @@ sponge{
 
 dependencies{
     compile 'org.spongepowered:spongeapi:3.1.0-SNAPSHOT'
+    compile 'commons-io:commons-io:2.4'
 }
 

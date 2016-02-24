@@ -2,6 +2,7 @@ package com.qixalite.spongestart.tasks;
 
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
@@ -42,6 +43,9 @@ public class GenerateStart extends DefaultTask {
             }
 
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            if (compiler == null){
+                throw new GradleException("You need to run this in a JDK not in a JRE!!!");
+            }
             StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
             Iterable<? extends JavaFileObject> compilationUnits1 = fileManager.getJavaFileObjects(files.toArray(new File[files.size()]));
 

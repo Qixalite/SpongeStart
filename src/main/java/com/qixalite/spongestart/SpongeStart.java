@@ -5,16 +5,21 @@ import com.qixalite.spongestart.util.Constants;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ResolvedArtifact;
+import org.gradle.api.artifacts.ResolvedConfiguration;
+import org.gradle.api.artifacts.ResolvedDependency;
 import org.gradle.plugins.ide.idea.model.IdeaModel;
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.gradle.api.Task;
 
 public class SpongeStart implements Plugin<Project>  {
 
     private static final String RUNTIME_SCOPE = "RUNTIME_SPONGE";
+    private static final String PROVIDED_SCOPE = "PROVIDED_SCOPE";
 
     private Project project;
     private File cachedDir;
@@ -50,6 +55,7 @@ public class SpongeStart implements Plugin<Project>  {
         generateStartTask.setOutputDir(this.startDir);
 
         this.project.getConfigurations().maybeCreate(RUNTIME_SCOPE);
+        this.project.getConfigurations().maybeCreate(PROVIDED_SCOPE);
         this.project.getDependencies().add(RUNTIME_SCOPE, this.project.files(this.startDir));
 
         setupIntellij();
@@ -127,17 +133,38 @@ public class SpongeStart implements Plugin<Project>  {
     private void setupIntellij(){
         Map<String, Map<String, Collection<Configuration>>> scopes = ((IdeaModel) this.project.getExtensions().getByName("idea"))
                 .getModule().getScopes();
-        scopes.get("PROVIDED").get("plus")
-                .add(this.project.getConfigurations().getByName(SpongeStart.RUNTIME_SCOPE));
+        scopes.get("RUNTIME").get("plus").add(this.project.getConfigurations().getByName(SpongeStart.RUNTIME_SCOPE));
+
         Configuration compileConfiguration = this.project.getConfigurations().getByName("compile");
+        ResolvedConfiguration resolvedconfig = compileConfiguration.getResolvedConfiguration();
+
+        resolvedconfig.getFirstLevelModuleDependencies().forEach(art -> System.out.println(art.getName()));
+
+
+        resolvedconfig.getFirstLevelModuleDependencies().stream().
+                filter(resolvedDependency -> resolvedDependency.getName().startsWith("org.spongepowered:spongeapi")).forEach(
+                spongeApi ->
+                    spongeApi.getAllModuleArtifacts()
+                            .forEach(file -> {
+                                System.out.println(file.getFile());
+                                this.project.getDependencies().add(PROVIDED_SCOPE, file.getModuleVersion().getId().toString());
+                            })
+
+        );
+
+        Configuration provided = this.project.getConfigurations().getByName(SpongeStart.PROVIDED_SCOPE);
+
         scopes.get("COMPILE").get("minus")
-                .add(compileConfiguration);
+                .add(provided);
         scopes.get("PROVIDED").get("plus")
-                .add(compileConfiguration);
+                .add(provided);
     }
 
     private String getintellijModuleName(){
         return ((IdeaModel) this.project.getExtensions().getByName("idea"))
                 .getModule().getName();
     }
+
+
+
 }
