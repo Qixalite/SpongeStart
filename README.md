@@ -41,15 +41,4 @@ dependencies{
 }
 ```
 
-## Run Configurations for your IDE
-
-####**Start SpongeForge Server:**
->
-- **Mainclass**: `StartServer`
-- **Working Directory**: `run/forge`
-
-####**Start SpongeVanilla Server:**
->
-- **Mainclass**: `StartServer`
-- **Working Directory**: `run/vanilla`
-- **arguments**: `-scan-classpath`
+Run `gradle setupServer` to get started. Plugin only works with intelij atm.
