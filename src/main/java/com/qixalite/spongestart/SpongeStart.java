@@ -144,11 +144,10 @@ public class SpongeStart implements Plugin<Project>  {
         resolvedconfig.getFirstLevelModuleDependencies().stream().
                 filter(resolvedDependency -> resolvedDependency.getName().startsWith("org.spongepowered:spongeapi")).forEach(
                 spongeApi ->
-                    spongeApi.getAllModuleArtifacts()
-                            .forEach(file -> {
-                                System.out.println(file.getFile());
-                                this.project.getDependencies().add(PROVIDED_SCOPE, file.getModuleVersion().getId().toString());
-                            })
+                        spongeApi.getAllModuleArtifacts()
+                                .forEach(file ->
+                                        this.project.getDependencies().add(PROVIDED_SCOPE, file.getModuleVersion().getId().toString())
+                                )
 
         );
 
@@ -164,7 +163,5 @@ public class SpongeStart implements Plugin<Project>  {
         return ((IdeaModel) this.project.getExtensions().getByName("idea"))
                 .getModule().getName();
     }
-
-
 
 }
