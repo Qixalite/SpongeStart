@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLClassLoader;
 
 public class SetupForgeServer extends DefaultTask {
 
@@ -27,7 +28,12 @@ public class SetupForgeServer extends DefaultTask {
 
             this.getLogger().lifecycle("Starting setup");
 
-            Process pr = Runtime.getRuntime().exec("java -jar setup.jar --installServer", null, this.folder);
+            Process pr = new ProcessBuilder()
+                    .command("java -jar setup.jar --installServer".split(" "))
+                    .directory(this.folder)
+                    .redirectErrorStream(true)
+                    .start();
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 
             while (pr.isAlive()){
@@ -36,11 +42,17 @@ public class SetupForgeServer extends DefaultTask {
                     this.getLogger().lifecycle(line);
             }
 
+            try {
+                pr.waitFor();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             File serverjar = new File(this.folder, "setup.jar");
             serverjar.delete();
 
             for (File file : folder.listFiles((dir, name) -> name.endsWith("-universal.jar"))) {
-                file.renameTo(serverjar);
+                file.renameTo(new File(this.folder, "server.jar"));
             }
         } catch (IOException e) {
             e.printStackTrace();
