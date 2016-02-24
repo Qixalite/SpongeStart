@@ -32,7 +32,6 @@ uploadArchives {
         mavenDeployer {
             repository(url: uri('.repo'))
         }
-        /*
         if (project.hasProperty('qixaliteRepoUsername')){
             mavenDeployer {
                 repository(url: 'http://repo.qixalite.com/content/repositories/public_releases/') {
@@ -41,8 +40,7 @@ uploadArchives {
                 snapshotRepository(url: 'http://repo.qixalite.com/content/repositories/public_snapshots') {
                     authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
                 }
->>>>>>> a3686f7... Got it finally working again, only issue is priority
             }
-        }*/
+        }
     }
 }
