@@ -10,6 +10,28 @@ public class StartServer{
 
     public static class SpongeClassLoader extends URLClassLoader {
 
+        public static void main(String[] args){
+            try {
+                System.out.println("Running folder: " + new File("."));
+                File server = new File("server.jar");
+                Manifest m = new JarFile(server).getManifest();
+
+                ClassLoader loader = new SpongeClassLoader(
+                        new URL[]{server.toURI().toURL()}, StartServer.class.getClassLoader()
+                );
+
+                try {
+                    loader.loadClass(m.getMainAttributes().getValue("Main-Class"))
+                            .getMethod("main", String[].class)
+                            .invoke(null, (Object) args);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         public SpongeClassLoader(URL[] urls, ClassLoader parent) {
             super(urls, parent);
             try {
@@ -30,29 +52,6 @@ public class StartServer{
                 e.printStackTrace();
             }
 
-        }
-    }
-
-
-    public static void main(String[] args){
-        try {
-            System.out.println("Running folder: " + new File("."));
-            File server = new File("server.jar");
-            Manifest m = new JarFile(server).getManifest();
-
-            ClassLoader loader = new SpongeClassLoader(
-                    new URL[]{server.toURI().toURL()}, StartServer.class.getClassLoader()
-            );
-
-            try {
-                loader.loadClass(m.getMainAttributes().getValue("Main-Class"))
-                        .getMethod("main", String[].class)
-                        .invoke(null, (Object) args);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

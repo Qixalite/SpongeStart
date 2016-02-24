@@ -1,5 +1,5 @@
 group 'com.thomas15v'
-version '1.1'
+version '1.4'
 
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -32,14 +32,17 @@ uploadArchives {
         mavenDeployer {
             repository(url: uri('.repo'))
         }
-        mavenDeployer {
-            repository(url: 'http://repo.qixalite.com/content/repositories/public_releases/') {
-                authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
+        /*
+        if (project.hasProperty('qixaliteRepoUsername')){
+            mavenDeployer {
+                repository(url: 'http://repo.qixalite.com/content/repositories/public_releases/') {
+                    authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
+                }
+                snapshotRepository(url: 'http://repo.qixalite.com/content/repositories/public_snapshots') {
+                    authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
+                }
+>>>>>>> a3686f7... Got it finally working again, only issue is priority
             }
-
-            snapshotRepository(url: 'http://repo.qixalite.com/content/repositories/public_snapshots') {
-                authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
-            }
-        }
+        }*/
     }
 }

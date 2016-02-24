@@ -4,10 +4,13 @@ import com.qixalite.spongestart.tasks.*;
 import com.qixalite.spongestart.util.Constants;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.plugins.ide.eclipse.model.EclipseModel;
+import org.gradle.api.artifacts.Configuration;
 import org.gradle.plugins.ide.idea.model.IdeaModel;
-
 import java.io.File;
+import java.util.Collection;
+import java.util.Map;
+
+import org.gradle.api.Task;
 
 public class SpongeStart implements Plugin<Project>  {
 
@@ -31,6 +34,7 @@ public class SpongeStart implements Plugin<Project>  {
         this.project.getExtensions().create("sponge", SpongeStartExtension.class, this);
 
         this.project.afterEvaluate(projectAfter -> {
+            this.project.getConfigurations().maybeCreate(RUNTIME_SCOPE);
             setupTasks((SpongeStartExtension) projectAfter.getExtensions().getByName("sponge"));
         });
     }
@@ -49,7 +53,6 @@ public class SpongeStart implements Plugin<Project>  {
         this.project.getDependencies().add(RUNTIME_SCOPE, this.project.files(this.startDir));
 
         setupIntellij();
-        setupEclipse();
 
         //SpongeForge Download Task
         DownloadFromRepoTask downloadSpongeForge = this.project.getTasks().create("downloadSpongeForge", DownloadFromRepoTask.class);
@@ -75,6 +78,26 @@ public class SpongeStart implements Plugin<Project>  {
         setupVanillaServer.setRepoUrl(Constants.SPONGEVANILLA_REPO);
         setupVanillaServer.setNumber(extension.getSpongeVanillaBuild());
 
+        //generate intelij tasks
+        String intellijModule = getintellijModuleName();
+
+        GenerateIntelijTask generateIntelijForge = this.project.getTasks().create("generateIntellijForgeTask", GenerateIntelijTask.class);
+        generateIntelijForge.setModulename(intellijModule);
+        generateIntelijForge.setTaskname("StartForgeServer");
+        generateIntelijForge.setWorkingdir(extension.getForgeServerFolder());
+        generateIntelijForge.setProject(this.project);
+        generateIntelijForge.dependsOn(setupForgeServer);
+
+        GenerateIntelijTask generateIntelijVanilla = this.project.getTasks().create("generateIntellijVanillaTask", GenerateIntelijTask.class);
+        generateIntelijVanilla.setModulename(intellijModule);
+        generateIntelijVanilla.setTaskname("StartVanillaServer");
+        generateIntelijVanilla.setWorkingdir(extension.getVanillaServerFolder());
+        generateIntelijVanilla.setRunoption("-scan-classpath");
+        generateIntelijVanilla.setProject(this.project);
+        generateIntelijVanilla.dependsOn(setupVanillaServer);
+
+        Task generateIntellijTasks = this.project.getTasks().create("generateIntellijTasks").dependsOn(generateIntelijForge, generateIntelijVanilla);
+
         //clean tasks
         CleanFolderTask cleanVanilla = this.project.getTasks().create("cleanVanillaServer", CleanFolderTask.class);
         cleanVanilla.setFolder(new File(extension.getVanillaServerFolder()));
@@ -82,12 +105,13 @@ public class SpongeStart implements Plugin<Project>  {
         CleanFolderTask cleanForge = this.project.getTasks().create("cleanForgeServer", CleanFolderTask.class);
         cleanForge.setFolder(new File(extension.getForgeServerFolder()));
 
-        this.project.getTasks().create("cleanServer", CleanFolderTask.class).dependsOn(cleanForge, cleanVanilla);
-
+        this.project.getTasks().create("cleanServer").dependsOn(cleanForge, cleanVanilla);
         this.project.getTasks().create("cleanCache", CleanFolderTask.class).setFolder(this.cachedDir);
 
         //stuff to make our lives easier
-        this.project.getTasks().create("setupServer").dependsOn(setupForgeServer, setupVanillaServer);
+        this.project.getTasks().create("setupServer").dependsOn(setupForgeServer, setupVanillaServer, generateIntellijTasks);
+        this.project.getTasks().create("setupVanilla").dependsOn(setupVanillaServer, generateIntelijVanilla);
+        this.project.getTasks().create("setupForge").dependsOn(setupForgeServer, generateIntelijForge);
 
         if (extension.isEula()){
             setupForgeServer.dependsOn(acceptEulaTask);
@@ -98,18 +122,22 @@ public class SpongeStart implements Plugin<Project>  {
     private void applyPlugins(){
         this.project.getPlugins().apply("java");
         this.project.getPlugins().apply("idea");
-        this.project.getPlugins().apply("eclipse");
     }
 
     private void setupIntellij(){
-        ((IdeaModel) this.project.getExtensions().getByName("idea"))
-                .getModule().getScopes().get("RUNTIME").get("plus")
-                .add(this.project.getConfigurations().getByName(RUNTIME_SCOPE));
+        Map<String, Map<String, Collection<Configuration>>> scopes = ((IdeaModel) this.project.getExtensions().getByName("idea"))
+                .getModule().getScopes();
+        scopes.get("PROVIDED").get("plus")
+                .add(this.project.getConfigurations().getByName(SpongeStart.RUNTIME_SCOPE));
+        Configuration compileConfiguration = this.project.getConfigurations().getByName("compile");
+        scopes.get("COMPILE").get("minus")
+                .add(compileConfiguration);
+        scopes.get("PROVIDED").get("plus")
+                .add(compileConfiguration);
     }
 
-    private void setupEclipse(){
-        ((EclipseModel) this.project.getExtensions().getByName("eclipse"))
-                .getClasspath().getPlusConfigurations()
-                .add(this.project.getConfigurations().getByName(RUNTIME_SCOPE));
+    private String getintellijModuleName(){
+        return ((IdeaModel) this.project.getExtensions().getByName("idea"))
+                .getModule().getName();
     }
 }
