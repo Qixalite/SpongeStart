@@ -1,4 +1,4 @@
-group 'com.thomas15v'
+group 'com.qixalite'
 version '1.4'
 
 apply plugin: 'java'
