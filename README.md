@@ -14,7 +14,7 @@ buildscript{
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.qixalite:SpongeStart:1.4'
+        classpath 'com.github.qixalite:SpongeStart:1.4.1'
     }
 }
 
@@ -25,7 +25,7 @@ repositories {
     }
 }
 
-sponge{
+spongestart{
    eula true
    
    //optional configs

@@ -36,7 +36,7 @@ public class SpongeStart implements Plugin<Project>  {
         DownloadTask.setCacheDir(this.downloadCacheDir);
 
         applyPlugins();
-        this.project.getExtensions().create("sponge", SpongeStartExtension.class, this);
+        this.project.getExtensions().create("spongestart", SpongeStartExtension.class, this);
 
         this.project.afterEvaluate(projectAfter -> {
             this.project.getConfigurations().maybeCreate(RUNTIME_SCOPE);
