@@ -1,4 +1,4 @@
-# SpongeStart
+# SpongeStart [![forthebadge](http://forthebadge.com/images/badges/contains-cat-gifs.svg)](http://forthebadge.com) [![](https://jitpack.io/v/qixalite/spongestart.svg)](https://jitpack.io/#qixalite/spongestart) [![GitHub stars](https://img.shields.io/github/stars/Qixalite/SpongeStart.svg)](https://github.com/Qixalite/SpongeStart/stargazers) [![GitHub issues](https://img.shields.io/github/issues/Qixalite/SpongeStart.svg)](https://github.com/Qixalite/SpongeStart/issues)
 Gradle plugin to run sponge inside your workspace.
 
 ## Example Build.gradle for your project
