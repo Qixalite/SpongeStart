@@ -40,7 +40,7 @@ public class SpongeStart implements Plugin<Project>  {
 
         this.project.afterEvaluate(projectAfter -> {
             this.project.getConfigurations().maybeCreate(RUNTIME_SCOPE);
-            setupTasks((SpongeStartExtension) projectAfter.getExtensions().getByName("sponge"));
+            setupTasks((SpongeStartExtension) projectAfter.getExtensions().getByName("spongestart"));
         });
     }
 
