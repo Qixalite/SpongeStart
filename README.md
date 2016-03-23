@@ -3,6 +3,7 @@
 stars](https://img.shields.io/github/stars/Qixalite/SpongeStart.svg)](https://github.com/Qixalite/SpongeStart/stargazers) [![GitHub 
 issues](https://img.shields.io/github/issues/Qixalite/SpongeStart.svg)](https://github.com/Qixalite/SpongeStart/issues) [![Build 
 Status](https://travis-ci.org/Qixalite/SpongeStart.svg?branch=master)](https://travis-ci.org/Qixalite/SpongeStart)
+
 Gradle plugin to run sponge inside your workspace.
 
 ## Example Build.gradle for your project
