@@ -1,0 +1,10 @@
+dist: trusty
+
+language: java
+
+env: GRADLE_OPTS="-Xms1g -Xmx3g"
+script: ./gradlew build
+after_success: ./gradlew publishPlugin
+
+notifications:
+  email: false
