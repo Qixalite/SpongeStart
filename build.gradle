@@ -1,5 +1,5 @@
 group 'com.qixalite'
-version '1.4.1'
+version '1.4.2'
 
 apply plugin: 'java'
 apply plugin: 'maven'
