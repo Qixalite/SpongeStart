@@ -8,20 +8,12 @@ Gradle plugin to run sponge inside your workspace.
 
 ## Example Build.gradle for your project
 ```groovy
-apply plugin: 'java'
-apply plugin: 'SpongeStart'
+plugins {
+  id "com.qixalite.spongestart" version "1.4.2"
+  id "java"
+}
 
 sourceCompatibility = 1.8
-
-buildscript{
-    repositories{
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-    }
-    dependencies {
-        classpath 'com.github.qixalite:SpongeStart:1.4.2'
-    }
-}
 
 repositories {
     mavenCentral()
