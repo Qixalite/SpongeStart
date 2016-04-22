@@ -28,8 +28,8 @@ spongestart{
    //optional configs
    spongeVanillaBuild 'LATEST'
    spongeForgeBuild 'LATEST'
-   forgeserverFolder 'run/forge'
-   vanillaserverFolder 'run/vanilla'
+   forgeServerFolder 'run/forge'
+   vanillaServerFolder 'run/vanilla'
 }
 
 dependencies{
