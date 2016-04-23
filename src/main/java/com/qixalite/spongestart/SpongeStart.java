@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.ResolvedConfiguration;
 import org.gradle.api.artifacts.ResolvedDependency;
 import org.gradle.plugins.ide.idea.model.IdeaModel;
 import java.io.File;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,6 @@ import org.gradle.api.Task;
 
 public class SpongeStart implements Plugin<Project>  {
 
-    private static final String RUNTIME_SCOPE = "RUNTIME_SPONGE";
     private static final String PROVIDED_SCOPE = "PROVIDED_SCOPE";
 
     private Project project;
@@ -39,7 +39,6 @@ public class SpongeStart implements Plugin<Project>  {
         this.project.getExtensions().create("spongestart", SpongeStartExtension.class, this);
 
         this.project.afterEvaluate(projectAfter -> {
-            this.project.getConfigurations().maybeCreate(RUNTIME_SCOPE);
             setupTasks((SpongeStartExtension) projectAfter.getExtensions().getByName("spongestart"));
         });
     }
@@ -54,9 +53,8 @@ public class SpongeStart implements Plugin<Project>  {
         GenerateStart generateStartTask = this.project.getTasks().create("generateStart", GenerateStart.class);
         generateStartTask.setOutputDir(this.startDir);
 
-        this.project.getConfigurations().maybeCreate(RUNTIME_SCOPE);
         this.project.getConfigurations().maybeCreate(PROVIDED_SCOPE);
-        this.project.getDependencies().add(RUNTIME_SCOPE, this.project.files(this.startDir));
+        this.project.getDependencies().add("runtime", this.project.files(this.startDir));
 
         setupIntellij();
 
@@ -100,7 +98,7 @@ public class SpongeStart implements Plugin<Project>  {
         generateIntelijVanilla.setWorkingdir(extension.getVanillaServerFolder());
         generateIntelijVanilla.setRunoption("-scan-classpath");
         generateIntelijVanilla.setProject(this.project);
-        generateIntelijVanilla.dependsOn(setupVanillaServer);
+        generateIntelijVanilla.dependsOn(setupVanillaServer, generateStartTask);
 
         Task generateIntellijTasks = this.project.getTasks().create("generateIntellijTasks").dependsOn(generateIntelijForge, generateIntelijVanilla);
 
@@ -133,13 +131,9 @@ public class SpongeStart implements Plugin<Project>  {
     private void setupIntellij(){
         Map<String, Map<String, Collection<Configuration>>> scopes = ((IdeaModel) this.project.getExtensions().getByName("idea"))
                 .getModule().getScopes();
-        scopes.get("RUNTIME").get("plus").add(this.project.getConfigurations().getByName(SpongeStart.RUNTIME_SCOPE));
 
         Configuration compileConfiguration = this.project.getConfigurations().getByName("compile");
         ResolvedConfiguration resolvedconfig = compileConfiguration.getResolvedConfiguration();
-
-        resolvedconfig.getFirstLevelModuleDependencies().forEach(art -> System.out.println(art.getName()));
-
 
         resolvedconfig.getFirstLevelModuleDependencies().stream().
                 filter(resolvedDependency -> resolvedDependency.getName().startsWith("org.spongepowered:spongeapi")).forEach(
@@ -161,7 +155,7 @@ public class SpongeStart implements Plugin<Project>  {
 
     private String getintellijModuleName(){
         return ((IdeaModel) this.project.getExtensions().getByName("idea"))
-                .getModule().getName();
+                .getModule().getName() + "_main";
     }
 
 }

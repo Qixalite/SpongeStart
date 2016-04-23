@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+
 public class GenerateIntelijTask extends DefaultTask {
 
     private String runoption = "";

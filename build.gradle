@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.qixalite'
-version '1.4.2'
+version '1.4.3'
 
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -12,16 +12,6 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-}
-
-configurations {
-    provided
-}
-
-sourceSets {
-    main {
-        compileClasspath += configurations.provided
-    }
 }
 
 dependencies {
@@ -35,16 +25,6 @@ uploadArchives {
     repositories {
         mavenDeployer {
             repository(url: uri('.repo'))
-        }
-        if (project.hasProperty('qixaliteRepoUsername')){
-            mavenDeployer {
-                repository(url: 'http://repo.qixalite.com/content/repositories/public_releases/') {
-                    authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
-                }
-                snapshotRepository(url: 'http://repo.qixalite.com/content/repositories/public_snapshots') {
-                    authentication(userName: qixaliteRepoUsername, password: qixaliteRepoPassword)
-                }
-            }
         }
     }
 }
