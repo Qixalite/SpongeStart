@@ -1,6 +1,5 @@
 package com.qixalite.spongestart.maven;
 
-
 import com.qixalite.spongestart.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;

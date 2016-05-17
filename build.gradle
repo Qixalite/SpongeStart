@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.qixalite'
-version '1.4.3'
+version '1.4.4'
 
 apply plugin: 'java'
 apply plugin: 'maven'
