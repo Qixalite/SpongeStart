@@ -1,5 +1,6 @@
 package com.qixalite.spongestart.maven;
 
+import com.qixalite.spongestart.util.Constants;
 import com.qixalite.spongestart.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -59,7 +60,7 @@ public class BuildNumberRepo {
                 return this.formatForVersion(version);
             }
         }
-        return null;
+        return getFor(number + 1);
     }
 
     public URL getLatest() throws Exception {
