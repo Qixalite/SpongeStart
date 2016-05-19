@@ -56,11 +56,11 @@ public class BuildNumberRepo {
         NodeList nodeList = this.getDocument().getElementsByTagName("version");
         for (int i = 0; i < nodeList.getLength(); i++){
             String version = nodeList.item(i).getTextContent();
-            if (version.endsWith(String.valueOf(number))){
+            if (version.contains(String.valueOf(number))){
                 return this.formatForVersion(version);
             }
         }
-        return getFor(number + 1);
+        return getFor(number - 1);
     }
 
     public URL getLatest() throws Exception {
