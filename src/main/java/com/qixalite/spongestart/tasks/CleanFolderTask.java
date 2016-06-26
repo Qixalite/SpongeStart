@@ -1,13 +1,13 @@
 package com.qixalite.spongestart.tasks;
 
 import org.apache.commons.io.FileUtils;
-import org.gradle.api.DefaultTask;
+
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
 import java.io.IOException;
 
-public class CleanFolderTask extends DefaultTask {
+public class CleanFolderTask extends SpongeStartTask {
 
     private File folder;
 

@@ -1,14 +1,13 @@
 package com.qixalite.spongestart.tasks;
 
 import org.apache.commons.io.FileUtils;
-import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AcceptEulaTask extends DefaultTask {
+public class AcceptEulaTask extends SpongeStartTask {
 
     private List<File> folders = new ArrayList<>();
 

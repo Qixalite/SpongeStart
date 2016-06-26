@@ -11,4 +11,8 @@ public class Constants {
     public static final String SPONGEMOD_LOCATION = "mods" + File.separator + "sponge.jar";
     public static final String FORGESETUP_LOCATION = "setup.jar";
 
+    public static final String TASK_GROUP = "SpongeStart";
+
+
+
 }

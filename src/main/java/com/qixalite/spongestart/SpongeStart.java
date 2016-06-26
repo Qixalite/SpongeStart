@@ -109,13 +109,23 @@ public class SpongeStart implements Plugin<Project>  {
         CleanFolderTask cleanForge = this.project.getTasks().create("cleanForgeServer", CleanFolderTask.class);
         cleanForge.setFolder(new File(extension.getForgeServerFolder()));
 
-        this.project.getTasks().create("cleanServer").dependsOn(cleanForge, cleanVanilla);
-        this.project.getTasks().create("cleanCache", CleanFolderTask.class).setFolder(this.cachedDir);
+        this.project.getTasks().create("cleanServer")
+                .dependsOn(cleanForge, cleanVanilla)
+                .setGroup(Constants.TASK_GROUP);
+        this.project.getTasks().create("cleanSpongeStartCache", CleanFolderTask.class)
+                .setFolder(this.cachedDir);
 
         //stuff to make our lives easier
-        this.project.getTasks().create("setupServer").dependsOn(setupForgeServer, setupVanillaServer, generateIntellijTasks);
-        this.project.getTasks().create("setupVanilla").dependsOn(setupVanillaServer, generateIntelijVanilla);
-        this.project.getTasks().create("setupForge").dependsOn(setupForgeServer, generateIntelijForge);
+        this.project.getTasks().create("setupServer")
+                .dependsOn(setupForgeServer, setupVanillaServer, generateIntellijTasks)
+                .setGroup(Constants.TASK_GROUP);
+
+        this.project.getTasks().create("setupVanilla")
+                .dependsOn(setupVanillaServer, generateIntelijVanilla)
+                .setGroup(Constants.TASK_GROUP);
+        this.project.getTasks().create("setupForge")
+                .dependsOn(setupForgeServer, generateIntelijForge)
+                .setGroup(Constants.TASK_GROUP);
 
         if (extension.isEula()){
             setupForgeServer.dependsOn(acceptEulaTask);

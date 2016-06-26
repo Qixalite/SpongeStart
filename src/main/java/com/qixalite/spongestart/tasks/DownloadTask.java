@@ -13,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class DownloadTask extends DefaultTask {
+public class DownloadTask extends SpongeStartTask {
 
     private File location;
     private URL url;

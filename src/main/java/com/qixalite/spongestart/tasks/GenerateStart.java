@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenerateStart extends DefaultTask {
+public class GenerateStart extends SpongeStartTask {
 
     private static final String[] filenames = {"StartServer.java"};
 

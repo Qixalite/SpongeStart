@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLClassLoader;
 
-public class SetupForgeServer extends DefaultTask {
+public class SetupForgeServer extends SpongeStartTask {
 
     private File folder = new File("run");
 
