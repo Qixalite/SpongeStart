@@ -1,5 +1,6 @@
 package com.qixalite.spongestart.maven;
 
+import com.qixalite.spongestart.util.Constants;
 import com.qixalite.spongestart.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -55,11 +56,11 @@ public class BuildNumberRepo {
         NodeList nodeList = this.getDocument().getElementsByTagName("version");
         for (int i = 0; i < nodeList.getLength(); i++){
             String version = nodeList.item(i).getTextContent();
-            if (version.endsWith(String.valueOf(number))){
+            if (version.contains(String.valueOf(number))){
                 return this.formatForVersion(version);
             }
         }
-        return null;
+        return getFor(number - 1);
     }
 
     public URL getLatest() throws Exception {
