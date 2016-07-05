@@ -156,7 +156,6 @@ public class SpongeStart implements Plugin<Project>  {
                                 )
 
         );
-        this.project.getConfigurations().forEach(System.out::println);
         addExtraConfiguration(project.getConfigurations().stream().filter(c -> c.getName().startsWith("forge")).collect(Collectors.toList()));
         Configuration provided = this.project.getConfigurations().getByName(SpongeStart.PROVIDED_SCOPE);
         scopes.get("COMPILE").get("minus")
