@@ -12,8 +12,10 @@ import org.gradle.plugins.ide.idea.model.IdeaModel;
 import java.io.File;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.gradle.api.Task;
 
@@ -154,9 +156,9 @@ public class SpongeStart implements Plugin<Project>  {
                                 )
 
         );
-
+        this.project.getConfigurations().forEach(System.out::println);
+        addExtraConfiguration(project.getConfigurations().stream().filter(c -> c.getName().startsWith("forge")).collect(Collectors.toList()));
         Configuration provided = this.project.getConfigurations().getByName(SpongeStart.PROVIDED_SCOPE);
-
         scopes.get("COMPILE").get("minus")
                 .add(provided);
         scopes.get("PROVIDED").get("plus")
@@ -168,4 +170,11 @@ public class SpongeStart implements Plugin<Project>  {
                 .getModule().getName() + "_main";
     }
 
+    private void addExtraConfiguration(List<Configuration> configurations){
+        configurations.stream().filter(configuration -> configuration != null)
+                .forEach(configuration -> configuration.getResolvedConfiguration()
+                        .getResolvedArtifacts().forEach(dep -> this.project.getDependencies()
+                                .add(PROVIDED_SCOPE, dep.getModuleVersion().getId().toString())));
+
+    }
 }
