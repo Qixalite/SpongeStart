@@ -148,7 +148,7 @@ public class SpongeStart implements Plugin<Project>  {
         ResolvedConfiguration resolvedconfig = compileConfiguration.getResolvedConfiguration();
 
         resolvedconfig.getFirstLevelModuleDependencies().stream().
-                filter(resolvedDependency -> resolvedDependency.getName().startsWith("org.spongepowered:spongeapi")).forEach(
+                filter(resolvedDependency -> resolvedDependency.getName().startsWith("org.spongepowered")).forEach(
                 spongeApi ->
                         spongeApi.getAllModuleArtifacts()
                                 .forEach(file ->
