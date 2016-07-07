@@ -10,7 +10,7 @@ public class SpongeStartExtension {
     protected String spongeForgeBuild = "LATEST";
     protected String forgeServerFolder = "run" + File.separator + "forge";
     protected String vanillaServerFolder = "run" + File.separator + "vanilla";
-
+    protected String extraProgramParameters;
     /**
      * Automatically accept the eula upon generation. Can be done with the task acceptEula,
      * but still you typed it so you kinda accepted it right?
@@ -59,5 +59,13 @@ public class SpongeStartExtension {
 
     public boolean isEula() {
         return this.eula;
+    }
+
+    public String getExtraProgramParameters() {
+        return extraProgramParameters == null ? "" : extraProgramParameters;
+    }
+
+    public void setExtraProgramParameters(String extraProgramParameters) {
+        this.extraProgramParameters = extraProgramParameters;
     }
 }

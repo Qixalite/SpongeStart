@@ -2,26 +2,28 @@ package com.qixalite.spongestart;
 
 import com.qixalite.spongestart.tasks.*;
 import com.qixalite.spongestart.util.Constants;
+import org.eclipse.jdt.internal.core.JavaModel;
+import org.gradle.BuildListener;
+import org.gradle.BuildResult;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.api.artifacts.ResolvedConfiguration;
-import org.gradle.api.artifacts.ResolvedDependency;
+import org.gradle.api.initialization.Settings;
+import org.gradle.api.internal.tasks.DefaultSourceSetContainer;
+import org.gradle.api.invocation.Gradle;
 import org.gradle.plugins.ide.idea.model.IdeaModel;
 import java.io.File;
-import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.gradle.api.Task;
 
 public class SpongeStart implements Plugin<Project>  {
 
-    private static final String PROVIDED_SCOPE = "PROVIDED_SCOPE";
+    public static final String PROVIDED_SCOPE = "spongeStart_Provided";
 
     private Project project;
     private File cachedDir;
@@ -43,6 +45,32 @@ public class SpongeStart implements Plugin<Project>  {
         this.project.afterEvaluate(projectAfter -> {
             setupTasks((SpongeStartExtension) projectAfter.getExtensions().getByName("spongestart"));
         });
+        this.project.getGradle().addBuildListener(new BuildListener() {
+            @Override
+            public void buildStarted(Gradle gradle) {
+
+            }
+
+            @Override
+            public void settingsEvaluated(Settings settings) {
+
+            }
+
+            @Override
+            public void projectsLoaded(Gradle gradle) {
+
+            }
+
+            @Override
+            public void projectsEvaluated(Gradle gradle) {
+
+            }
+
+            @Override
+            public void buildFinished(BuildResult result) {
+                setupIntellij();
+            }
+        });
     }
 
     private void setupTasks(SpongeStartExtension extension){
@@ -57,8 +85,6 @@ public class SpongeStart implements Plugin<Project>  {
 
         this.project.getConfigurations().maybeCreate(PROVIDED_SCOPE);
         this.project.getDependencies().add("runtime", this.project.files(this.startDir));
-
-        setupIntellij();
 
         //SpongeForge Download Task
         DownloadFromRepoTask downloadSpongeForge = this.project.getTasks().create("downloadSpongeForge", DownloadFromRepoTask.class);
@@ -93,12 +119,13 @@ public class SpongeStart implements Plugin<Project>  {
         generateIntelijForge.setWorkingdir(extension.getForgeServerFolder());
         generateIntelijForge.setProject(this.project);
         generateIntelijForge.dependsOn(setupForgeServer);
+        generateIntelijForge.setRunoption(extension.getExtraProgramParameters());
 
         GenerateIntelijTask generateIntelijVanilla = this.project.getTasks().create("generateIntellijVanillaTask", GenerateIntelijTask.class);
         generateIntelijVanilla.setModulename(intellijModule);
         generateIntelijVanilla.setTaskname("StartVanillaServer");
         generateIntelijVanilla.setWorkingdir(extension.getVanillaServerFolder());
-        generateIntelijVanilla.setRunoption("-scan-classpath");
+        generateIntelijVanilla.setRunoption("-scan-classpath " + extension.getExtraProgramParameters());
         generateIntelijVanilla.setProject(this.project);
         generateIntelijVanilla.dependsOn(setupVanillaServer, generateStartTask);
 
@@ -141,10 +168,10 @@ public class SpongeStart implements Plugin<Project>  {
     }
 
     private void setupIntellij(){
-        Map<String, Map<String, Collection<Configuration>>> scopes = ((IdeaModel) this.project.getExtensions().getByName("idea"))
+        Map<String, Map<String, Collection<Configuration>>> scopes = ((IdeaModel) getProject().getExtensions().getByName("idea"))
                 .getModule().getScopes();
 
-        Configuration compileConfiguration = this.project.getConfigurations().getByName("compile");
+        Configuration compileConfiguration = getProject().getConfigurations().getByName("compile");
         ResolvedConfiguration resolvedconfig = compileConfiguration.getResolvedConfiguration();
 
         resolvedconfig.getFirstLevelModuleDependencies().stream().
@@ -152,28 +179,34 @@ public class SpongeStart implements Plugin<Project>  {
                 spongeApi ->
                         spongeApi.getAllModuleArtifacts()
                                 .forEach(file ->
-                                        this.project.getDependencies().add(PROVIDED_SCOPE, file.getModuleVersion().getId().toString())
+                                        getProject().getDependencies().add(SpongeStart.PROVIDED_SCOPE, file.getModuleVersion().getId().toString())
                                 )
 
         );
-        addExtraConfiguration(project.getConfigurations().stream().filter(c -> c.getName().startsWith("forge")).collect(Collectors.toList()));
-        Configuration provided = this.project.getConfigurations().getByName(SpongeStart.PROVIDED_SCOPE);
+        addExtraConfiguration(getProject().getConfigurations().stream().filter(c -> c.getName().startsWith("forge")).collect(Collectors.toList()));
+        Configuration provided = getProject().getConfigurations().getByName(SpongeStart.PROVIDED_SCOPE);
+
         scopes.get("COMPILE").get("minus")
                 .add(provided);
         scopes.get("PROVIDED").get("plus")
                 .add(provided);
     }
 
-    private String getintellijModuleName(){
-        return ((IdeaModel) this.project.getExtensions().getByName("idea"))
-                .getModule().getName() + "_main";
-    }
-
     private void addExtraConfiguration(List<Configuration> configurations){
         configurations.stream().filter(configuration -> configuration != null)
                 .forEach(configuration -> configuration.getResolvedConfiguration()
-                        .getResolvedArtifacts().forEach(dep -> this.project.getDependencies()
-                                .add(PROVIDED_SCOPE, dep.getModuleVersion().getId().toString())));
+                        .getResolvedArtifacts().forEach(dep -> this.getProject().getDependencies()
+                                .add(SpongeStart.PROVIDED_SCOPE, dep.getModuleVersion().getId().toString())));
 
+    }
+
+    private String getintellijModuleName(){
+        IdeaModel ideaModel =  ((IdeaModel) this.project.getExtensions().getByName("idea"));
+        //todo find a way to read idea's sourcesets
+        return ideaModel.getModule().getName() + "_main";
+    }
+
+    public Project getProject() {
+        return project;
     }
 }

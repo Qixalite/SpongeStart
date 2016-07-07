@@ -10,7 +10,7 @@ public class StartServer{
 
     public static void main(String[] args){
         try {
-            System.out.println("Running folder: " + new File("."));
+            System.out.println("Running folder: " + new File(".").getAbsolutePath());
             File server = new File("server.jar");
             Manifest m = new JarFile(server).getManifest();
 

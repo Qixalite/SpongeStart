@@ -1,5 +1,6 @@
 package com.qixalite.spongestart.tasks;
 
+import com.google.common.io.Resources;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 import org.w3c.dom.Document;
@@ -41,7 +42,7 @@ public class GenerateIntelijTask extends SpongeStartTask {
     }
 
     private void generateConfig(Path file, Map<String,String> params) throws Exception {
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(getClass().getClassLoader().getResourceAsStream("runconfig.xml"));
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Resources.getResource("runconfig.xml").openStream());
         NodeList nodeList = document.getElementsByTagName("option");
         for (int i = 0; i < nodeList.getLength(); i++) {
             NamedNodeMap attr = nodeList.item(i).getAttributes();

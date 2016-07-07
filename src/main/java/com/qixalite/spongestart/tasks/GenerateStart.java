@@ -1,5 +1,6 @@
 package com.qixalite.spongestart.tasks;
 
+import com.google.common.io.Resources;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
@@ -35,9 +36,8 @@ public class GenerateStart extends SpongeStartTask {
             List<File> files = new ArrayList<>();
 
             for (String name : GenerateStart.filenames){
-                InputStream link = getClass().getClassLoader().getResourceAsStream(name);
+                InputStream link = Resources.getResource(name).openStream();
                 File outputFile = new File(outputDir, name);
-
                 IOUtils.copy(link, new FileOutputStream(outputFile));
                 files.add(outputFile);
             }
