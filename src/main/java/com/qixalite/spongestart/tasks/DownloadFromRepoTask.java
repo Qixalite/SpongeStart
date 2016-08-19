@@ -1,6 +1,6 @@
 package com.qixalite.spongestart.tasks;
 
-import com.qixalite.spongestart.maven.BuildNumberRepo;
+import com.qixalite.spongestart.maven.MavenRepo;
 
 import java.net.MalformedURLException;
 
@@ -8,12 +8,12 @@ public class DownloadFromRepoTask extends DownloadTask {
 
     private String version;
     private String repoUrl;
-    protected BuildNumberRepo repo;
+    protected MavenRepo repo;
 
     public void setRepoUrl(String repoUrl) {
         this.repoUrl = repoUrl;
         try {
-            this.repo = new BuildNumberRepo(repoUrl);
+            this.repo = new MavenRepo(repoUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -29,8 +29,7 @@ public class DownloadFromRepoTask extends DownloadTask {
             if ("LATEST".equalsIgnoreCase(this.version)){
                 this.setUrl(this.repo.getLatest());
             }else {
-                int number = Integer.valueOf(this.version);
-                this.setUrl(this.repo.getFor(number));
+                this.setUrl(this.repo.getFor(this.version));
             }
             super.doStuff();
         } catch (Exception e) {

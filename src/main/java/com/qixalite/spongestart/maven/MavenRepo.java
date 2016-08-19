@@ -1,5 +1,6 @@
 package com.qixalite.spongestart.maven;
 
+import com.qixalite.spongestart.util.Constants;
 import com.qixalite.spongestart.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -14,18 +15,18 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
-public class BuildNumberRepo {
+public class MavenRepo {
 
     private URL url;
     private String artifactName;
     private String fileExtension = ".jar";
 
 
-    public BuildNumberRepo(String url) throws MalformedURLException {
+    public MavenRepo(String url) throws MalformedURLException {
         this(new URL(url));
     }
 
-    public BuildNumberRepo(URL url){
+    public MavenRepo(URL url){
         this.url = url;
         this.artifactName = Util.getFileName(url);
     }
@@ -52,18 +53,22 @@ public class BuildNumberRepo {
         return new URL(this.url, version + "/" + this.artifactName + "-" + version + this.fileExtension);
     }
 
-    public URL getFor(int number) throws Exception {
+    public URL getFor(String version) throws Exception {
         NodeList nodeList = this.getDocument().getElementsByTagName("version");
         for (int i = 0; i < nodeList.getLength(); i++){
-            String version = nodeList.item(i).getTextContent();
-            if (version.contains(String.valueOf(number))){
+            String item = nodeList.item(i).getTextContent();
+            if (item.equalsIgnoreCase(version)){
                 return this.formatForVersion(version);
             }
         }
-        return getFor(number - 1);
+        return null;
     }
 
     public URL getLatest() throws Exception {
         return this.formatForVersion(this.getDocument().getElementsByTagName("release").item(0).getTextContent());
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(new MavenRepo(Constants.SPONGEVANILLA_REPO).getFor("1.10.2-5.0.0-BETA-100"));
     }
 }
