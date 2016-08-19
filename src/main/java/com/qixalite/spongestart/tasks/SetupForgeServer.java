@@ -1,14 +1,11 @@
 package com.qixalite.spongestart.tasks;
 
-import org.gradle.api.DefaultTask;
-import org.gradle.api.GradleException;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URLClassLoader;
 
 public class SetupForgeServer extends SpongeStartTask {
 

@@ -1,7 +1,6 @@
 package com.qixalite.spongestart.tasks;
 
 import com.google.common.io.Resources;
-import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -13,7 +12,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

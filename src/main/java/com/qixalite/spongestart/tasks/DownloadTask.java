@@ -3,13 +3,11 @@ package com.qixalite.spongestart.tasks;
 import com.qixalite.spongestart.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 

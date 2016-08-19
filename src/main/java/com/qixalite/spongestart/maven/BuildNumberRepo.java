@@ -1,6 +1,5 @@
 package com.qixalite.spongestart.maven;
 
-import com.qixalite.spongestart.util.Constants;
 import com.qixalite.spongestart.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -9,9 +8,10 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import java.io.IOException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
 public class BuildNumberRepo {

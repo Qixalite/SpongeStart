@@ -2,7 +2,6 @@ package com.qixalite.spongestart.tasks;
 
 import com.google.common.io.Resources;
 import org.apache.commons.io.IOUtils;
-import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;

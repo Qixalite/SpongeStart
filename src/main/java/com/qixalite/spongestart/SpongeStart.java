@@ -2,24 +2,22 @@ package com.qixalite.spongestart;
 
 import com.qixalite.spongestart.tasks.*;
 import com.qixalite.spongestart.util.Constants;
-import org.eclipse.jdt.internal.core.JavaModel;
 import org.gradle.BuildListener;
 import org.gradle.BuildResult;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ResolvedConfiguration;
 import org.gradle.api.initialization.Settings;
-import org.gradle.api.internal.tasks.DefaultSourceSetContainer;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.plugins.ide.idea.model.IdeaModel;
+
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.gradle.api.Task;
 
 public class SpongeStart implements Plugin<Project>  {
 

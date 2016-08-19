@@ -1,7 +1,6 @@
 package com.qixalite.spongestart.tasks;
 
 import org.apache.commons.io.FileUtils;
-
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
