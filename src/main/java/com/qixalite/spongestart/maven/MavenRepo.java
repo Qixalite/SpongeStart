@@ -1,6 +1,5 @@
 package com.qixalite.spongestart.maven;
 
-import com.qixalite.spongestart.util.Constants;
 import com.qixalite.spongestart.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -66,9 +65,5 @@ public class MavenRepo {
 
     public URL getLatest() throws Exception {
         return this.formatForVersion(this.getDocument().getElementsByTagName("release").item(0).getTextContent());
-    }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(new MavenRepo(Constants.SPONGEVANILLA_REPO).getFor("1.10.2-5.0.0-BETA-100"));
     }
 }

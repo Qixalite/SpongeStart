@@ -1,19 +1,25 @@
 package com.qixalite.spongestart.tasks;
 
-import com.qixalite.spongestart.util.Util;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class DownloadForgeTask extends DownloadFromRepoTask {
+import static com.qixalite.spongestart.util.Constants.FORGE_REPO;
 
-    private DownloadFromRepoTask downloadSpongeForgeTask;
+public class DownloadForgeTask extends DownloadTask {
 
-    public void setDownloadSpongeForgeTask(DownloadFromRepoTask downloadSpongeForgeTask) {
+    private SpongeDownloadTask downloadSpongeForgeTask;
+
+    public void setDownloadSpongeForgeTask(SpongeDownloadTask downloadSpongeForgeTask) {
         this.downloadSpongeForgeTask = downloadSpongeForgeTask;
     }
 
     @Override
     public void doStuff() {
-        this.setNumber(Util.getFileName(this.downloadSpongeForgeTask.getUrl()).split("-")[2]);
-        this.repo.setFileExtension("-installer.jar");
+        try {
+            this.setUrl(new URL(FORGE_REPO + downloadSpongeForgeTask.getForge() + "/forge-" + downloadSpongeForgeTask.getForge() + "-installer.jar"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         super.doStuff();
     }
 }

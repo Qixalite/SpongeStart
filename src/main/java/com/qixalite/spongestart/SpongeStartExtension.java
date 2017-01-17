@@ -6,8 +6,8 @@ public class SpongeStartExtension {
 
     private final transient SpongeStart spongeStart;
 
-    protected String spongeVanillaBuild = "LATEST";
-    protected String spongeForgeBuild = "LATEST";
+    protected String minecraft = "";
+    protected String type = "";
     protected String forgeServerFolder = "run" + File.separator + "forge";
     protected String vanillaServerFolder = "run" + File.separator + "vanilla";
     protected String extraProgramParameters;
@@ -21,20 +21,21 @@ public class SpongeStartExtension {
         this.spongeStart = spongeStart;
     }
 
-    public String getSpongeForgeBuild() {
-        return this.spongeForgeBuild;
+
+    public String getMinecraft() {
+        return minecraft;
     }
 
-    public String getSpongeVanillaBuild() {
-        return this.spongeVanillaBuild;
+    public void setMinecraft(String minecraft) {
+        this.minecraft = minecraft;
     }
 
-    public void setSpongeForgeBuild(String spongeForgeBuild) {
-        this.spongeForgeBuild = spongeForgeBuild;
+    public String getType() {
+        return type;
     }
 
-    public void setSpongeVanillaBuild(String spongeVanillaBuild) {
-        this.spongeVanillaBuild = spongeVanillaBuild;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getForgeServerFolder() {

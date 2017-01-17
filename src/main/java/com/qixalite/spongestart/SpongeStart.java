@@ -85,17 +85,17 @@ public class SpongeStart implements Plugin<Project>  {
         this.project.getDependencies().add("runtime", this.project.files(this.startDir));
 
         //SpongeForge Download Task
-        DownloadFromRepoTask downloadSpongeForge = this.project.getTasks().create("downloadSpongeForge", DownloadFromRepoTask.class);
-        downloadSpongeForge.setNumber(extension.getSpongeForgeBuild());
+        SpongeDownloadTask downloadSpongeForge = this.project.getTasks().create("downloadSpongeForge", SpongeDownloadTask.class);
         downloadSpongeForge.setLocation(new File(extension.getForgeServerFolder(), Constants.SPONGEMOD_LOCATION));
-        downloadSpongeForge.setRepoUrl(Constants.SPONGEFORGE_REPO);
+        downloadSpongeForge.setMincraft(extension.getMinecraft());
+        downloadSpongeForge.setType(extension.getType());
+        downloadSpongeForge.setPlatform(SpongeDownloadTask.Platform.FORGE);
 
         //Download Forge Task
         DownloadForgeTask downloadForgeSetup = this.project.getTasks().create("downloadForgeSetup", DownloadForgeTask.class);
         downloadForgeSetup.setDownloadSpongeForgeTask(downloadSpongeForge);
         downloadForgeSetup.dependsOn(downloadSpongeForge);
         downloadForgeSetup.setLocation(new File(extension.getForgeServerFolder(), Constants.FORGESETUP_LOCATION));
-        downloadForgeSetup.setRepoUrl(Constants.FORGE_REPO);
 
         //Setup Forge task
         SetupForgeServer setupForgeServer = this.project.getTasks().create("SetupForgeServer", SetupForgeServer.class);
@@ -103,10 +103,11 @@ public class SpongeStart implements Plugin<Project>  {
         setupForgeServer.setFolder(new File(extension.getForgeServerFolder()));
 
         //sponge Vanilla tasks
-        DownloadFromRepoTask setupVanillaServer = this.project.getTasks().create("setupVanillaServer", DownloadFromRepoTask.class);
+        SpongeDownloadTask setupVanillaServer = this.project.getTasks().create("setupVanillaServer", SpongeDownloadTask.class);
         setupVanillaServer.setLocation(new File(extension.getVanillaServerFolder(), "server.jar"));
-        setupVanillaServer.setRepoUrl(Constants.SPONGEVANILLA_REPO);
-        setupVanillaServer.setNumber(extension.getSpongeVanillaBuild());
+        setupVanillaServer.setMincraft(extension.getMinecraft());
+        setupVanillaServer.setType(extension.getType());
+        setupVanillaServer.setPlatform(SpongeDownloadTask.Platform.VANILLA);
 
         //generate intelij tasks
         String intellijModule = getintellijModuleName();
