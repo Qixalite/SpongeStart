@@ -9,7 +9,7 @@ Gradle plugin to run sponge inside your workspace.
 ## Example Build.gradle for your project
 ```groovy
 plugins {
-  id "com.qixalite.spongestart" version "1.5.2"
+  id "com.qixalite.spongestart" version "1.5.3"
   id "java"
 }
 
