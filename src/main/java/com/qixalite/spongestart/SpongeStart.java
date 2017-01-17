@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SpongeStart implements Plugin<Project>  {
@@ -116,7 +117,6 @@ public class SpongeStart implements Plugin<Project>  {
         generateIntelijForge.setModulename(intellijModule);
         generateIntelijForge.setTaskname("StartForgeServer");
         generateIntelijForge.setWorkingdir(extension.getForgeServerFolder());
-        generateIntelijForge.setProject(this.project);
         generateIntelijForge.dependsOn(setupForgeServer);
         generateIntelijForge.setRunoption(extension.getExtraProgramParameters());
 
@@ -125,7 +125,6 @@ public class SpongeStart implements Plugin<Project>  {
         generateIntelijVanilla.setTaskname("StartVanillaServer");
         generateIntelijVanilla.setWorkingdir(extension.getVanillaServerFolder());
         generateIntelijVanilla.setRunoption("-scan-classpath " + extension.getExtraProgramParameters());
-        generateIntelijVanilla.setProject(this.project);
         generateIntelijVanilla.dependsOn(setupVanillaServer, generateStartTask);
 
         Task generateIntellijTasks = this.project.getTasks().create("generateIntellijTasks").dependsOn(generateIntelijForge, generateIntelijVanilla);
@@ -192,7 +191,7 @@ public class SpongeStart implements Plugin<Project>  {
     }
 
     private void addExtraConfiguration(List<Configuration> configurations){
-        configurations.stream().filter(configuration -> configuration != null)
+        configurations.stream().filter(Objects::nonNull)
                 .forEach(configuration -> configuration.getResolvedConfiguration()
                         .getResolvedArtifacts().forEach(dep -> this.getProject().getDependencies()
                                 .add(SpongeStart.PROVIDED_SCOPE, dep.getModuleVersion().getId().toString())));

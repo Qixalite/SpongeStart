@@ -36,7 +36,7 @@ public class SetupForgeServer extends SpongeStartTask {
             }
 
 
-            new File(this.folder, "setup.jar").delete();;
+            new File(this.folder, "setup.jar").delete();
             try {
                 pr.waitFor();
             } catch (InterruptedException e) {
