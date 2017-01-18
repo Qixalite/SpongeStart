@@ -1,6 +1,5 @@
 package com.qixalite.spongestart.tasks;
 
-import com.qixalite.spongestart.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.GradleException;
@@ -44,7 +43,7 @@ public class DownloadTask extends SpongeStartTask {
         this.getLogger().lifecycle("Downloading: " + getUrl());
         try {
             URLConnection connection = this.url.openConnection();
-            File cacheLocation = new File(DownloadTask.cacheDir, Util.getFileName(getUrl()));
+            File cacheLocation = new File(DownloadTask.cacheDir, getFileName(getUrl()));
             if (cacheLocation.exists() && cacheLocation.length() == connection.getContentLength()) {
                 this.getLogger().lifecycle("Done! (cached)");
             }else{
@@ -55,5 +54,12 @@ public class DownloadTask extends SpongeStartTask {
         } catch (IOException e) {
             throw new GradleException("Failed to download: " + this.url + " : " + e.getMessage());
         }
+    }
+
+    public static String getFileName(URL url){
+        String path = url.getPath();
+        if (url.getPath().endsWith("/"))
+            path = path.substring(0, url.getPath().length() - 1);
+        return path.substring(path.lastIndexOf("/") + 1);
     }
 }

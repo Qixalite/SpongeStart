@@ -1,7 +1,6 @@
 package com.qixalite.spongestart;
 
 import com.qixalite.spongestart.tasks.*;
-import com.qixalite.spongestart.util.Constants;
 import org.gradle.BuildListener;
 import org.gradle.BuildResult;
 import org.gradle.api.Plugin;
@@ -88,9 +87,11 @@ public class SpongeStart implements Plugin<Project>  {
         //SpongeForge Download Task
         SpongeDownloadTask downloadSpongeForge = this.project.getTasks().create("downloadSpongeForge", SpongeDownloadTask.class);
         downloadSpongeForge.setLocation(new File(extension.getForgeServerFolder(), Constants.SPONGEMOD_LOCATION));
-        downloadSpongeForge.setMincraft(extension.getMinecraft());
+        downloadSpongeForge.setMinecraft(extension.getMinecraft());
         downloadSpongeForge.setType(extension.getType());
+        downloadSpongeForge.setArtifactType(extension.getForgeArtifactType());
         downloadSpongeForge.setPlatform(SpongeDownloadTask.Platform.FORGE);
+        downloadSpongeForge.setVersion(extension.getSpongeForgeVersion());
 
         //Download Forge Task
         DownloadForgeTask downloadForgeSetup = this.project.getTasks().create("downloadForgeSetup", DownloadForgeTask.class);
@@ -106,9 +107,11 @@ public class SpongeStart implements Plugin<Project>  {
         //sponge Vanilla tasks
         SpongeDownloadTask setupVanillaServer = this.project.getTasks().create("setupVanillaServer", SpongeDownloadTask.class);
         setupVanillaServer.setLocation(new File(extension.getVanillaServerFolder(), "server.jar"));
-        setupVanillaServer.setMincraft(extension.getMinecraft());
+        setupVanillaServer.setMinecraft(extension.getMinecraft());
         setupVanillaServer.setType(extension.getType());
+        setupVanillaServer.setArtifactType(extension.getVanillaArtifactType());
         setupVanillaServer.setPlatform(SpongeDownloadTask.Platform.VANILLA);
+        setupVanillaServer.setVersion(extension.getSpongeVanillaVersion());
 
         //generate intelij tasks
         String intellijModule = getintellijModuleName();
