@@ -28,8 +28,8 @@ spongestart{
    //optional settings, takes latest version by default
    minecraft '1.10.2'
    type 'bleeding'
-   SpongeForgeVersion '1.10.2-2202-5.1.0-BETA-2042'
-   SpongeVanillaVersion '1.10.2-5.0.0-BETA-89'
+   spongeForgeVersion '1.10.2-2202-5.1.0-BETA-2042'
+   spongeVanillaVersion '1.10.2-5.0.0-BETA-89'
 }
 
 dependencies{
