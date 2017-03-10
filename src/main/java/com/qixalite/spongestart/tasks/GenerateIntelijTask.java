@@ -3,9 +3,7 @@ package com.qixalite.spongestart.tasks;
 import com.google.common.io.Resources;
 import com.qixalite.spongestart.SpongeStart;
 import org.gradle.api.tasks.TaskAction;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
@@ -13,6 +11,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +33,13 @@ public class GenerateIntelijTask extends SpongeStartTask {
             configs.put("MAIN_CLASS_NAME", "StartServer");
             configs.put("WORKING_DIRECTORY", "$PROJECT_DIR$/" + workingdir);
             configs.put("PROGRAM_PARAMETERS", runoption);
-            generateConfig(Paths.get(".idea/runConfigurations/" + taskname + ".xml"), configs );
+            generateConfigAlternative(Paths.get(".idea/workspace.xml"), configs);
+            /*
+            if (Files.exists(Paths.get(".idea/runConfigurations/"))) {
+                generateConfig(Paths.get(".idea/runConfigurations/" + taskname + ".xml"), configs);
+            } else {
+
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +70,57 @@ public class GenerateIntelijTask extends SpongeStartTask {
 
         Result result = new StreamResult(Files.newOutputStream(file));
         transformer.transform(new DOMSource(document), result);
+    }
+
+    private void generateConfigAlternative(Path file, Map<String,String> params) throws Exception {
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().
+                parse(file.toString());
+        Node run = null;
+        NodeList component = document.getElementsByTagName("component");
+        for (int i = 0; i < component.getLength(); i++) {
+            if (component.item(i).getAttributes().getNamedItem("name").getNodeValue().equals("RunManager")) {
+                run = component.item(i);
+                break;
+            }
+        }
+
+        Element configuration = document.createElement("configuration");
+        configuration.setAttribute("default", "false");
+        configuration.setAttribute("name", taskname );
+        configuration.setAttribute("type", "Application");
+        configuration.setAttribute("factoryName", "Application");
+
+        Element extension = document.createElement("extension");
+        extension.setAttribute("name", "coverage");
+        extension.setAttribute("enabled", "false");
+        extension.setAttribute("merge", "false");
+        extension.setAttribute("sample_coverage", "true");
+        extension.setAttribute("runner", "idea");
+
+        Element mainName = document.createElement("option");
+        mainName.setAttribute("name", "MAIN_CLASS_NAME");
+        mainName.setAttribute("value", "StartServer");
+
+        Element workingDir = document.createElement("option");
+        workingDir.setAttribute("name", "WORKING_DIRECTORY");
+        workingDir.setAttribute("value", "file://$PROJECT_DIR$/"+workingdir);
+
+        Element moduleName = document.createElement("module");
+        moduleName.setAttribute("name", modulename);
+
+
+        configuration.appendChild(extension);
+        configuration.appendChild(mainName);
+        configuration.appendChild(workingDir);
+        configuration.appendChild(moduleName);
+
+        run.appendChild(configuration);
+
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+
+        StreamResult result = new StreamResult(new File(file.toString()));
+        transformer.transform(new DOMSource(document), result);
+
     }
 
     public void setModulename(String modulename) {

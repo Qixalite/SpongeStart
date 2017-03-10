@@ -12,8 +12,8 @@ public class SpongeStartExtension {
     protected String vanillaServerFolder = "run" + File.separator + "vanilla";
     protected String forgeArtifactType = "";
     protected String vanillaArtifactType = "";
-    protected String SpongeForgeVersion = null;
-    protected String SpongeVanillaVersion = null;
+    protected String spongeForgeVersion = null;
+    protected String spongeVanillaVersion = null;
 
 
 
@@ -49,19 +49,19 @@ public class SpongeStartExtension {
     }
 
     public String getSpongeVanillaVersion() {
-        return SpongeVanillaVersion;
+        return spongeVanillaVersion;
     }
 
     public String getSpongeForgeVersion() {
-        return SpongeForgeVersion;
+        return spongeForgeVersion;
     }
 
     public void setSpongeVanillaVersion(String spongeVanillaVersion) {
-        SpongeVanillaVersion = spongeVanillaVersion;
+        this.spongeVanillaVersion = spongeVanillaVersion;
     }
 
     public void setSpongeForgeVersion(String spongeForgeVersion) {
-        SpongeForgeVersion = spongeForgeVersion;
+        this.spongeForgeVersion = spongeForgeVersion;
     }
 
     public String getMinecraft() {
