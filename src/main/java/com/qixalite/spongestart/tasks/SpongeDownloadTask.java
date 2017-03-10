@@ -137,6 +137,11 @@ public class SpongeDownloadTask extends DownloadTask {
             if (platform == Platform.FORGE && versionData.length == 5 ){
                 minecraft = versionData[0];
                 forgebuild = versionData[1];
+                try {
+                    setUrl(new URL(SPONGE_REPO + platform.getName() + "/" + version + "/" + platform.getName() + "-" + version + ".jar"));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 return;
             } else if (platform == Platform.VANILLA && versionData.length == 4){
                 minecraft = versionData[0];
